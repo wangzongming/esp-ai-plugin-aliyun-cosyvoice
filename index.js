@@ -83,10 +83,10 @@ module.exports = {
                                 _ws.close();
                             }
                             // ESP-AI TTS 框架缺陷...
-                            if (session_id === "1001") {
-                                finishedTodo();
-                            } else {
+                            if (`${session_id}` === "1001") {
                                 setTimeout(finishedTodo, 3000)
+                            } else {
+                                finishedTodo();
                             } 
                             break;
                         case 'task-failed':
