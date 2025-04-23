@@ -33,7 +33,7 @@ module.exports = {
                         text_type: 'PlainText',
                         voice: voice_id, // 音色
                         format: 'mp3', // 音频格式 
-                        sample_rate: 16000, // 采样率 
+                        sample_rate: 16000, // 采样率  
                         volume: 90, // 音量
                         rate: 1, // 语速
                         pitch: 1 // 音调
@@ -52,6 +52,7 @@ module.exports = {
             });
             const ws = {
                 close() {
+                    // console.log("用户打断。");
                     shouldClose = true;
                     sendEnd();
                     _ws.close();
@@ -113,8 +114,8 @@ module.exports = {
                     payload: {
                         input: {}
                     }
-                });
-                _ws.send(finishTaskMessage);
+                }); 
+                _ws.OPEN && _ws.send(finishTaskMessage);
             }
 
             function sendContinueTasks() {
@@ -136,6 +137,7 @@ module.exports = {
             }
 
             _ws.on('close', () => {
+                // console.log("关闭。");
                 connectServerCb(false);
             });
 
