@@ -1,6 +1,6 @@
 # esp-ai-plugin-aliyun-cosyvoice [![npm](https://img.shields.io/npm/v/esp-ai-plugin-aliyun-cosyvoice.svg)](https://www.npmjs.com/package/esp-ai-plugin-aliyun-cosyvoice) [![npm](https://img.shields.io/npm/dm/esp-ai-plugin-aliyun-cosyvoice.svg?style=flat)](https://www.npmjs.com/package/esp-ai-plugin-aliyun-cosyvoice)
 
-让 esp-ai 支持阿里云的 cosyvoice 语音克隆服务
+让 esp-ai 支持阿里云的 cosyvoice-v2 语音克隆服务
 
  
 

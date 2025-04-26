@@ -9,7 +9,8 @@ module.exports = {
     type: "TTS",
     async main({ text, tts_config, cb, log, ttsServerErrorCb, connectServerCb, connectServerBeforeCb, logWSServer, session_id }) {
         try {
-            const { api_key, voice_id } = tts_config; 
+            const { api_key, voice_id } = tts_config;
+            if (!voice_id) return log.error(`请配给 TTS 配置 voice_id 参数。`)
 
             // WebSocket服务器地址
             const url = 'wss://dashscope.aliyuncs.com/api-ws/v1/inference/';
@@ -28,12 +29,12 @@ module.exports = {
                     task_group: 'audio',
                     task: 'tts',
                     function: 'SpeechSynthesizer',
-                    model: 'cosyvoice-v1',
+                    model: 'cosyvoice-v2',
                     parameters: {
                         text_type: 'PlainText',
                         voice: voice_id, // 音色
-                        format: 'mp3', // 音频格式 
-                        sample_rate: 16000, // 采样率  
+                        format: 'mp3', // 音频格式  
+                        sample_rate: 24000, // 采样率  
                         volume: 90, // 音量
                         rate: 1, // 语速
                         pitch: 1 // 音调
@@ -58,7 +59,7 @@ module.exports = {
                     _ws.close();
                 }
             };
-            logWSServer(ws)
+            logWSServer(ws);
 
 
             _ws.on('open', () => {
@@ -82,13 +83,13 @@ module.exports = {
                             const finishedTodo = () => { 
                                 cb({ is_over: true, audio: "", ws });
                                 _ws.close();
-                            }
+                            } 
                             // ESP-AI TTS 框架缺陷...
-                            if (`${session_id}` === "1001") {
+                            if (`${session_id}` === "0001") { 
                                 setTimeout(finishedTodo, 3000)
                             } else {
                                 finishedTodo();
-                            } 
+                            }  
                             break;
                         case 'task-failed':
                             ttsServerErrorCb(`TTS 任务失败：${message.header.error_message}`)
@@ -114,7 +115,7 @@ module.exports = {
                     payload: {
                         input: {}
                     }
-                }); 
+                });
                 _ws.OPEN && _ws.send(finishTaskMessage);
             }
 
