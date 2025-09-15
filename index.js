@@ -34,8 +34,8 @@ module.exports = {
                         text_type: 'PlainText',
                         voice: voice_id, // 音色
                         format: 'mp3', // 音频格式  
-                        sample_rate: 24000, // 采样率  
-                        volume: 90, // 音量
+                        sample_rate: 24000, // 采样率   
+                        volume: 100, // 音量
                         rate: 1, // 语速
                         pitch: 1 // 音调
                     },
@@ -83,13 +83,13 @@ module.exports = {
                             const finishedTodo = () => { 
                                 cb({ is_over: true, audio: "", ws });
                                 _ws.close();
-                            } 
+                            }
                             // ESP-AI TTS 框架缺陷...
-                            if (`${session_id}` === "0001") { 
+                            if (`${session_id}` === "0001") {
                                 setTimeout(finishedTodo, 3000)
                             } else {
                                 finishedTodo();
-                            }  
+                            }
                             break;
                         case 'task-failed':
                             ttsServerErrorCb(`TTS 任务失败：${message.header.error_message}`)
@@ -115,8 +115,8 @@ module.exports = {
                     payload: {
                         input: {}
                     }
-                });
-                _ws.OPEN && _ws.send(finishTaskMessage);
+                }); 
+                _ws.OPEN &&  _ws.readyState === 1 && _ws.send(finishTaskMessage);
             }
 
             function sendContinueTasks() {
@@ -138,7 +138,6 @@ module.exports = {
             }
 
             _ws.on('close', () => {
-                // console.log("关闭。");
                 connectServerCb(false);
             });
 
