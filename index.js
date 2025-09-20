@@ -55,8 +55,8 @@ module.exports = {
                 close() {
                     // console.log("用户打断。");
                     shouldClose = true;
-                    sendEnd();
-                    _ws.close();
+                    sendEnd(); 
+                    !_ws.CLOSED && _ws.close();
                 }
             };
             logWSServer(ws);
@@ -68,7 +68,7 @@ module.exports = {
             });
 
             _ws.on('message', (data, isBinary) => {
-                if (isBinary) { 
+                if (isBinary) {
                     !shouldClose && cb({ is_over: false, audio: data, ws });
                 } else {
                     const message = JSON.parse(data);
@@ -80,7 +80,7 @@ module.exports = {
                             break;
                         case 'task-finished':
                             taskFinished = true;
-                            const finishedTodo = () => { 
+                            const finishedTodo = () => {
                                 cb({ is_over: true, audio: "", ws });
                                 _ws.close();
                             }
@@ -115,8 +115,8 @@ module.exports = {
                     payload: {
                         input: {}
                     }
-                }); 
-                _ws.OPEN &&  _ws.readyState === 1 && _ws.send(finishTaskMessage);
+                });
+                _ws.OPEN && _ws.readyState === 1 && _ws.send(finishTaskMessage);
             }
 
             function sendContinueTasks() {
