@@ -55,7 +55,7 @@ module.exports = {
                 close() {
                     // console.log("用户打断。");
                     shouldClose = true;
-                    sendEnd(); 
+                    sendEnd();
                     !_ws.CLOSED && _ws.close();
                 }
             };
@@ -113,6 +113,7 @@ module.exports = {
                         streaming: 'duplex'
                     },
                     payload: {
+                        task_group: 'audio', 
                         input: {}
                     }
                 });
@@ -127,6 +128,7 @@ module.exports = {
                         streaming: 'duplex'
                     },
                     payload: {
+                        task_group: 'audio',  
                         input: {
                             text
                         }
